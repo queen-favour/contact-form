@@ -1,18 +1,26 @@
 import { useForm } from "react-hook-form";
+import { Toaster, toast } from "sonner";
 
 function App() {
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const selectedQueryType = watch("queryType");
+
   const onSubmit = (data) => {
+    toast.success(
+      "Message Sent! Thanks for completing the form. We'll be in touch "
+    );
     console.log(data);
   };
 
   return (
     <div className="flex items-center justify-center bg-lighterGreen w-screen h-screen">
+      <Toaster position="top-right" richColors />
       <div className="bg-white flex flex-col justify-center items-center p-6 rounded-xl">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -21,7 +29,6 @@ function App() {
           <span className="font-semibold text-[20px] pb-5">Contact Us</span>
 
           <div className="flex gap-4">
-            {/* First Name */}
             <div className="flex flex-col gap-1 w-full">
               <label htmlFor="firstName" className="font-semibold">
                 First Name *
@@ -29,7 +36,7 @@ function App() {
               <input
                 type="text"
                 id="firstName"
-                className={`border py-3 rounded-lg px-3 ${
+                className={`border py-3 rounded-lg px-3 cursor-pointer ${
                   errors.firstName ? "border-red" : "border-mediumGrey"
                 } focus:border-mediumGreen focus:outline-none hover:border-mediumGreen`}
                 {...register("firstName", {
@@ -37,9 +44,7 @@ function App() {
                 })}
               />
               {errors.firstName && (
-                <span className="text-red">
-                  {errors.firstName?.message}
-                </span>
+                <span className="text-red">{errors.firstName?.message}</span>
               )}
             </div>
 
@@ -51,7 +56,7 @@ function App() {
               <input
                 type="text"
                 id="lastName"
-                className={`border py-3 rounded-lg px-3 ${
+                className={`border py-3 rounded-lg px-3 cursor-pointer ${
                   errors.lastName ? "border-red" : "border-mediumGrey"
                 } focus:border-mediumGreen focus:outline-none hover:border-mediumGreen`}
                 {...register("lastName", {
@@ -72,7 +77,7 @@ function App() {
             <input
               type="email"
               id="email"
-              className={`border py-3 rounded-lg px-3 ${
+              className={`border py-3 rounded-lg px-3 cursor-pointer ${
                 errors.email ? "border-red" : "border-mediumGrey"
               } focus:border-mediumGreen focus:outline-none hover:border-mediumGreen`}
               {...register("email", {
@@ -90,18 +95,22 @@ function App() {
 
           {/* Query Type */}
           <div className="flex flex-col gap-1 pt-4">
-            <label className="font-semibold">Query Type *</label>
+            <label className="font-semibold ">Query Type *</label>
             <div className="flex gap-4">
               <label
                 className={`flex items-center border w-full p-2 rounded-lg cursor-pointer ${
                   errors.queryType
                     ? "border-red"
-                    : "border-mediumGrey hover:border-mediumGreen focus-within:border-mediumGreen"
+                    : `border-mediumGrey hover:border-mediumGreen focus-within:border-mediumGreen ${
+                        selectedQueryType === "general" ? "bg-lighterGreen" : ""
+                      }`
                 }`}
               >
                 <input
                   type="radio"
-                  className="mr-2"
+                  className={`accent-mediumGreen mr-2 cursor-pointer ${
+                    errors.queryType ? "border-red" : ""
+                  } focus:outline-none focus:ring focus:ring-lighterGreen`}
                   {...register("queryType", {
                     required: "Please select a query type",
                   })}
@@ -113,12 +122,16 @@ function App() {
                 className={`flex items-center border w-full p-2 rounded-lg cursor-pointer ${
                   errors.queryType
                     ? "border-red"
-                    : "border-mediumGrey hover:border-mediumGreen focus-within:border-mediumGreen"
+                    : `border-mediumGrey hover:border-mediumGreen focus-within:border-mediumGreen ${
+                        selectedQueryType === "support" ? "bg-lighterGreen" : ""
+                      }`
                 }`}
               >
                 <input
                   type="radio"
-                  className="mr-2"
+                  className={`accent-mediumGreen mr-2 cursor-pointer ${
+                    errors.queryType ? "border-red" : ""
+                  } focus:outline-none focus:ring focus:ring-lighterGreen`}
                   {...register("queryType", {
                     required: "Please select a query type",
                   })}
@@ -139,7 +152,7 @@ function App() {
             </label>
             <textarea
               id="message"
-              className={`border rounded-lg px-3 py-3 h-24 ${
+              className={`border rounded-lg px-3 py-3 h-24 cursor-pointer ${
                 errors.message ? "border-red" : "border-mediumGrey"
               } focus:border-mediumGreen focus:outline-none hover:border-mediumGreen`}
               {...register("message", { required: "This field is required" })}
@@ -153,9 +166,9 @@ function App() {
           <div className="flex gap-2 items-center pt-4">
             <input
               type="checkbox"
-              className={`accent-green-500 scale-125 ${
+              className={`accent-mediumGreen scale-125 ${
                 errors.consent ? "border-red" : ""
-              } focus:outline-none focus:ring focus:ring-mediumGreen`}
+              } focus:outline-none focus:ring focus:ring-white`}
               {...register("consent", {
                 required: "You must consent to continue",
               })}
@@ -171,7 +184,7 @@ function App() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="mt-6 bg-mediumGreen text-white rounded-lg py-3 hover:bg-green-600"
+            className="mt-6 bg-mediumGreen text-white rounded-lg cursor-pointer py-3 hover:bg-emerald-900"
           >
             Submit
           </button>
