@@ -25,7 +25,7 @@ const FormInput = ({
         {...register(name, validation)}
         value={value}
       />
-      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+      {errorMessage && <p className="text-red">{errorMessage}</p>}
     </div>
   );
 };
